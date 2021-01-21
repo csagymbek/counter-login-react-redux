@@ -1,23 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
+import { useDispatch, useSelector } from "react-redux";
+import { decrement, increment } from "./actions/counterActions";
+import { logIn, logOut } from "./actions/isLoggedInAction";
+import "./App.css";
 
 function App() {
+  const counterReducer = useSelector((state) => state.counterReducer);
+  const loginReducer = useSelector((state) => state.loginReducer);
+
+  const dispatch = useDispatch();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <div className="App__div">
+        <h2>counter: {counterReducer}</h2>
+        <button
+          className="ui black button"
+          onClick={() => dispatch(increment())}
         >
-          Learn React
-        </a>
-      </header>
+          +
+        </button>
+        <button
+          className="ui black button"
+          onClick={() => dispatch(decrement())}
+        >
+          -
+        </button>
+      </div>
+      <div className="App__login">
+        {!loginReducer ? (
+          <button className="ui black button" onClick={() => dispatch(logIn())}>
+            login
+          </button>
+        ) : (
+          <button
+            className="ui black button"
+            onClick={() => dispatch(logOut())}
+          >
+            logout
+          </button>
+        )}
+      </div>
     </div>
   );
 }
